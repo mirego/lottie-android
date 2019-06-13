@@ -24,7 +24,6 @@ import com.amazonaws.auth.BasicAWSCredentials
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility
 import com.amazonaws.services.s3.AmazonS3Client
 import com.amazonaws.services.s3.model.S3ObjectSummary
-import junit.framework.Assert.assertNull
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.channels.produce
@@ -137,7 +136,6 @@ class LottieTest {
     ) {
         for (file in files) {
             log("Parsing ${file.nameWithoutExtension}")
-            // val result = if (file.name.endsWith("zip")) LottieCompositionFactory.fromZipStreamSync(ZipInputStream(FileInputStream(file)), file.name) else LottieCompositionFactory.fromJsonInputStreamSync(FileInputStream(file), file.name)
             val result = LottieCompositionFactory.fromJsonInputStreamSync(FileInputStream(file), file.name)
             val composition = result.value
                     ?: throw IllegalStateException("Unable to parse ${file.nameWithoutExtension}")
