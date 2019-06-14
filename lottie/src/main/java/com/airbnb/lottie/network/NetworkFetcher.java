@@ -76,7 +76,6 @@ public class NetworkFetcher {
     InputStream inputStream = cacheResult.second;
     LottieResult<LottieComposition> result;
     if (extension == FileExtension.Zip) {
-      // result = LottieCompositionFactory.fromZipStreamSync(new ZipInputStream(inputStream), url);
       return null;
     } else {
       result = LottieCompositionFactory.fromJsonInputStreamSync(inputStream, url);
@@ -117,13 +116,13 @@ public class NetworkFetcher {
 
     File file;
     FileExtension extension;
-    LottieResult<LottieComposition> result = null;
+    LottieResult<LottieComposition> result;
     switch (connection.getContentType()) {
       case "application/zip":
         L.debug("Handling zip response.");
         extension = FileExtension.Zip;
         file = networkCache.writeTempCacheFile(connection.getInputStream(), extension);
-        break;
+        throw new RuntimeException("ZIP files are not supported anymore...");
       case "application/json":
       default:
         L.debug("Received json response.");
