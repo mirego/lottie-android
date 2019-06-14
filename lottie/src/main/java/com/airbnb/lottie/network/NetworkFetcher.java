@@ -20,7 +20,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.concurrent.Callable;
-import java.util.zip.ZipInputStream;
 
 public class NetworkFetcher {
 
@@ -77,7 +76,8 @@ public class NetworkFetcher {
     InputStream inputStream = cacheResult.second;
     LottieResult<LottieComposition> result;
     if (extension == FileExtension.Zip) {
-      result = LottieCompositionFactory.fromZipStreamSync(new ZipInputStream(inputStream), url);
+      // result = LottieCompositionFactory.fromZipStreamSync(new ZipInputStream(inputStream), url);
+      return null;
     } else {
       result = LottieCompositionFactory.fromJsonInputStreamSync(inputStream, url);
     }
@@ -117,13 +117,12 @@ public class NetworkFetcher {
 
     File file;
     FileExtension extension;
-    LottieResult<LottieComposition> result;
+    LottieResult<LottieComposition> result = null;
     switch (connection.getContentType()) {
       case "application/zip":
         L.debug("Handling zip response.");
         extension = FileExtension.Zip;
         file = networkCache.writeTempCacheFile(connection.getInputStream(), extension);
-        result = LottieCompositionFactory.fromZipStreamSync(new ZipInputStream(new FileInputStream(file)), url);
         break;
       case "application/json":
       default:
